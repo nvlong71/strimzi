@@ -1,0 +1,1191 @@
+{
+  "name": "io.debezium.connector.mysql.MySqlConnector",
+  "error_count": 4,
+  "groups": [
+    "Common",
+    "Transforms",
+    "Predicates",
+    "Error Handling",
+    "Topic Creation",
+    "Exactly Once Support",
+    "offsets.topic",
+    "MySQL",
+    "History Storage",
+    "Events",
+    "Connector"
+  ],
+  "configs": [
+    {
+      "definition": {
+        "name": "name",
+        "type": "STRING",
+        "required": true,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "Globally unique name to use for this connector.",
+        "group": "Common",
+        "width": "MEDIUM",
+        "display_name": "Connector name",
+        "dependents": [],
+        "order": 1
+      },
+      "value": {
+        "name": "name",
+        "value": "connector",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "connector.class",
+        "type": "STRING",
+        "required": true,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "Name or alias of the class for this connector. Must be a subclass of org.apache.kafka.connect.connector.Connector. If the connector is org.apache.kafka.connect.file.FileStreamSinkConnector, you can either specify this full name,  or use \"FileStreamSink\" or \"FileStreamSinkConnector\" to make the configuration a bit shorter",
+        "group": "Common",
+        "width": "LONG",
+        "display_name": "Connector class",
+        "dependents": [],
+        "order": 2
+      },
+      "value": {
+        "name": "connector.class",
+        "value": "io.debezium.connector.mysql.MySqlConnector",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "tasks.max",
+        "type": "INT",
+        "required": false,
+        "default_value": "1",
+        "importance": "HIGH",
+        "documentation": "Maximum number of tasks to use for this connector.",
+        "group": "Common",
+        "width": "SHORT",
+        "display_name": "Tasks max",
+        "dependents": [],
+        "order": 3
+      },
+      "value": {
+        "name": "tasks.max",
+        "value": "1",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "key.converter",
+        "type": "CLASS",
+        "required": false,
+        "default_value": null,
+        "importance": "LOW",
+        "documentation": "Converter class used to convert between Kafka Connect format and the serialized form that is written to Kafka. This controls the format of the keys in messages written to or read from Kafka, and since this is independent of connectors it allows any connector to work with any serialization format. Examples of common formats include JSON and Avro.",
+        "group": "Common",
+        "width": "SHORT",
+        "display_name": "Key converter class",
+        "dependents": [],
+        "order": 4
+      },
+      "value": {
+        "name": "key.converter",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "value.converter",
+        "type": "CLASS",
+        "required": false,
+        "default_value": null,
+        "importance": "LOW",
+        "documentation": "Converter class used to convert between Kafka Connect format and the serialized form that is written to Kafka. This controls the format of the values in messages written to or read from Kafka, and since this is independent of connectors it allows any connector to work with any serialization format. Examples of common formats include JSON and Avro.",
+        "group": "Common",
+        "width": "SHORT",
+        "display_name": "Value converter class",
+        "dependents": [],
+        "order": 5
+      },
+      "value": {
+        "name": "value.converter",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "header.converter",
+        "type": "CLASS",
+        "required": false,
+        "default_value": null,
+        "importance": "LOW",
+        "documentation": "HeaderConverter class used to convert between Kafka Connect format and the serialized form that is written to Kafka. This controls the format of the header values in messages written to or read from Kafka, and since this is independent of connectors it allows any connector to work with any serialization format. Examples of common formats include JSON and Avro. By default, the SimpleHeaderConverter is used to serialize header values to strings and deserialize them by inferring the schemas.",
+        "group": "Common",
+        "width": "SHORT",
+        "display_name": "Header converter class",
+        "dependents": [],
+        "order": 6
+      },
+      "value": {
+        "name": "header.converter",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "transforms",
+        "type": "LIST",
+        "required": false,
+        "default_value": "",
+        "importance": "LOW",
+        "documentation": "Aliases for the transformations to be applied to records.",
+        "group": "Transforms",
+        "width": "LONG",
+        "display_name": "Transforms",
+        "dependents": [],
+        "order": 7
+      },
+      "value": {
+        "name": "transforms",
+        "value": "",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "predicates",
+        "type": "LIST",
+        "required": false,
+        "default_value": "",
+        "importance": "LOW",
+        "documentation": "Aliases for the predicates used by transformations.",
+        "group": "Predicates",
+        "width": "LONG",
+        "display_name": "Predicates",
+        "dependents": [],
+        "order": 8
+      },
+      "value": {
+        "name": "predicates",
+        "value": "",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "config.action.reload",
+        "type": "STRING",
+        "required": false,
+        "default_value": "restart",
+        "importance": "LOW",
+        "documentation": "The action that Connect should take on the connector when changes in external configuration providers result in a change in the connector's configuration properties. A value of 'none' indicates that Connect will do nothing. A value of 'restart' indicates that Connect should restart/reload the connector with the updated configuration properties.The restart may actually be scheduled in the future if the external configuration provider indicates that a configuration value will expire in the future.",
+        "group": "Common",
+        "width": "MEDIUM",
+        "display_name": "Reload Action",
+        "dependents": [],
+        "order": 9
+      },
+      "value": {
+        "name": "config.action.reload",
+        "value": "restart",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "errors.retry.timeout",
+        "type": "LONG",
+        "required": false,
+        "default_value": "0",
+        "importance": "MEDIUM",
+        "documentation": "The maximum duration in milliseconds that a failed operation will be reattempted. The default is 0, which means no retries will be attempted. Use -1 for infinite retries.",
+        "group": "Error Handling",
+        "width": "MEDIUM",
+        "display_name": "Retry Timeout for Errors",
+        "dependents": [],
+        "order": 1
+      },
+      "value": {
+        "name": "errors.retry.timeout",
+        "value": "0",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "errors.retry.delay.max.ms",
+        "type": "LONG",
+        "required": false,
+        "default_value": "60000",
+        "importance": "MEDIUM",
+        "documentation": "The maximum duration in milliseconds between consecutive retry attempts. Jitter will be added to the delay once this limit is reached to prevent thundering herd issues.",
+        "group": "Error Handling",
+        "width": "MEDIUM",
+        "display_name": "Maximum Delay Between Retries for Errors",
+        "dependents": [],
+        "order": 2
+      },
+      "value": {
+        "name": "errors.retry.delay.max.ms",
+        "value": "60000",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "errors.tolerance",
+        "type": "STRING",
+        "required": false,
+        "default_value": "none",
+        "importance": "MEDIUM",
+        "documentation": "Behavior for tolerating errors during connector operation. 'none' is the default value and signals that any error will result in an immediate connector task failure; 'all' changes the behavior to skip over problematic records.",
+        "group": "Error Handling",
+        "width": "SHORT",
+        "display_name": "Error Tolerance",
+        "dependents": [],
+        "order": 3
+      },
+      "value": {
+        "name": "errors.tolerance",
+        "value": "none",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "errors.log.enable",
+        "type": "BOOLEAN",
+        "required": false,
+        "default_value": "false",
+        "importance": "MEDIUM",
+        "documentation": "If true, write each error and the details of the failed operation and problematic record to the Connect application log. This is 'false' by default, so that only errors that are not tolerated are reported.",
+        "group": "Error Handling",
+        "width": "SHORT",
+        "display_name": "Log Errors",
+        "dependents": [],
+        "order": 4
+      },
+      "value": {
+        "name": "errors.log.enable",
+        "value": "false",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "errors.log.include.messages",
+        "type": "BOOLEAN",
+        "required": false,
+        "default_value": "false",
+        "importance": "MEDIUM",
+        "documentation": "Whether to include in the log the Connect record that resulted in a failure. For sink records, the topic, partition, offset, and timestamp will be logged. For source records, the key and value (and their schemas), all headers, and the timestamp, Kafka topic, Kafka partition, source partition, and source offset will be logged. This is 'false' by default, which will prevent record keys, values, and headers from being written to log files.",
+        "group": "Error Handling",
+        "width": "SHORT",
+        "display_name": "Log Error Details",
+        "dependents": [],
+        "order": 5
+      },
+      "value": {
+        "name": "errors.log.include.messages",
+        "value": "false",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "topic.creation.groups",
+        "type": "LIST",
+        "required": false,
+        "default_value": "",
+        "importance": "LOW",
+        "documentation": "Groups of configurations for topics created by source connectors",
+        "group": "Topic Creation",
+        "width": "LONG",
+        "display_name": "Topic Creation Groups",
+        "dependents": [],
+        "order": 1
+      },
+      "value": {
+        "name": "topic.creation.groups",
+        "value": "",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "exactly.once.support",
+        "type": "STRING",
+        "required": false,
+        "default_value": "requested",
+        "importance": "MEDIUM",
+        "documentation": "Permitted values are requested, required. If set to \"required\", forces a preflight check for the connector to ensure that it can provide exactly-once semantics with the given configuration. Some connectors may be capable of providing exactly-once semantics but not signal to Connect that they support this; in that case, documentation for the connector should be consulted carefully before creating it, and the value for this property should be set to \"requested\". Additionally, if the value is set to \"required\" but the worker that performs preflight validation does not have exactly-once support enabled for source connectors, requests to create or validate the connector will fail.",
+        "group": "Exactly Once Support",
+        "width": "SHORT",
+        "display_name": "Exactly once support",
+        "dependents": [],
+        "order": 2
+      },
+      "value": {
+        "name": "exactly.once.support",
+        "value": "requested",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "transaction.boundary",
+        "type": "STRING",
+        "required": false,
+        "default_value": "poll",
+        "importance": "MEDIUM",
+        "documentation": "Permitted values are: poll, interval, connector. If set to 'poll', a new producer transaction will be started and committed for every batch of records that each task from this connector provides to Connect. If set to 'connector', relies on connector-defined transaction boundaries; note that not all connectors are capable of defining their own transaction boundaries, and in that case, attempts to instantiate a connector with this value will fail. Finally, if set to 'interval', commits transactions only after a user-defined time interval has passed.",
+        "group": "Exactly Once Support",
+        "width": "SHORT",
+        "display_name": "Transaction Boundary",
+        "dependents": [],
+        "order": 3
+      },
+      "value": {
+        "name": "transaction.boundary",
+        "value": "poll",
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "transaction.boundary.interval.ms",
+        "type": "LONG",
+        "required": false,
+        "default_value": null,
+        "importance": "LOW",
+        "documentation": "If 'transaction.boundary' is set to 'interval', determines the interval for producer transaction commits by connector tasks. If unset, defaults to the value of the worker-level 'offset.flush.interval.ms' property. It has no effect if a different transaction.boundary is specified.",
+        "group": "Exactly Once Support",
+        "width": "SHORT",
+        "display_name": "Transaction boundary interval",
+        "dependents": [],
+        "order": 4
+      },
+      "value": {
+        "name": "transaction.boundary.interval.ms",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "offsets.storage.topic",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "LOW",
+        "documentation": "The name of a separate offsets topic to use for this connector. If empty or not specified, the worker’s global offsets topic name will be used. If specified, the offsets topic will be created if it does not already exist on the Kafka cluster targeted by this connector (which may be different from the one used for the worker's global offsets topic if the bootstrap.servers property of the connector's producer has been overridden from the worker's). Only applicable in distributed mode; in standalone mode, setting this property will have no effect.",
+        "group": "offsets.topic",
+        "width": "LONG",
+        "display_name": "Offsets topic",
+        "dependents": [],
+        "order": 1
+      },
+      "value": {
+        "name": "offsets.storage.topic",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.hostname",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "Resolvable hostname or IP address of the MySQL database server.",
+        "group": "MySQL",
+        "width": "MEDIUM",
+        "display_name": "Hostname",
+        "dependents": [],
+        "order": 1
+      },
+      "value": {
+        "name": "database.hostname",
+        "value": null,
+        "recommended_values": [],
+        "errors": [
+          "Unable to connect: Could not create connection to database server."
+        ],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.port",
+        "type": "INT",
+        "required": false,
+        "default_value": "3306",
+        "importance": "HIGH",
+        "documentation": "Port of the MySQL database server.",
+        "group": "MySQL",
+        "width": "SHORT",
+        "display_name": "Port",
+        "dependents": [],
+        "order": 2
+      },
+      "value": {
+        "name": "database.port",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.user",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "Name of the MySQL database user to be used when connecting to the database.",
+        "group": "MySQL",
+        "width": "SHORT",
+        "display_name": "User",
+        "dependents": [],
+        "order": 3
+      },
+      "value": {
+        "name": "database.user",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.password",
+        "type": "PASSWORD",
+        "required": false,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "Password of the MySQL database user to be used when connecting to the database.",
+        "group": "MySQL",
+        "width": "SHORT",
+        "display_name": "Password",
+        "dependents": [],
+        "order": 4
+      },
+      "value": {
+        "name": "database.password",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.server.name",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "Unique name that identifies the database server and all recorded offsets, andthat is used as a prefix for all schemas and topics. Each distinct MySQL installation should have a separate namespace and monitored by at most one Debezium connector. Defaults to 'host:port'",
+        "group": "MySQL",
+        "width": "MEDIUM",
+        "display_name": "Namespace",
+        "dependents": [],
+        "order": 5
+      },
+      "value": {
+        "name": "database.server.name",
+        "value": null,
+        "recommended_values": [],
+        "errors": [
+          "A value is required"
+        ],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.server.id",
+        "type": "LONG",
+        "required": false,
+        "default_value": "5739",
+        "importance": "HIGH",
+        "documentation": "A numeric ID of this database client, which must be unique across all currently-running database processes in the cluster. This connector joins the MySQL database cluster as another server (with this unique ID) so it can read the binlog. By default, a random number is generated between 5400 and 6400.",
+        "group": "MySQL",
+        "width": "LONG",
+        "display_name": "Cluster ID",
+        "dependents": [],
+        "order": 6
+      },
+      "value": {
+        "name": "database.server.id",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.ssl.mode",
+        "type": "STRING",
+        "required": false,
+        "default_value": "disabled",
+        "importance": "MEDIUM",
+        "documentation": "Whether to use an encrypted connection to MySQL. Options include'disabled' (the default) to use an unencrypted connection; 'preferred' to establish a secure (encrypted) connection if the server supports secure connections, but fall back to an unencrypted connection otherwise; 'required' to use a secure (encrypted) connection, and fail if one cannot be established; 'verify_ca' like 'required' but additionally verify the server TLS certificate against the configured Certificate Authority (CA) certificates, or fail if no valid matching CA certificates are found; or'verify_identity' like 'verify_ca' but additionally verify that the server certificate matches the host to which the connection is attempted.",
+        "group": "MySQL",
+        "width": "MEDIUM",
+        "display_name": "SSL mode",
+        "dependents": [],
+        "order": 7
+      },
+      "value": {
+        "name": "database.ssl.mode",
+        "value": null,
+        "recommended_values": [
+          "verify_identity",
+          "disabled",
+          "preferred",
+          "required",
+          "verify_ca"
+        ],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.ssl.keystore",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "MEDIUM",
+        "documentation": "Location of the Java keystore file containing an application process's own certificate and private key.",
+        "group": "MySQL",
+        "width": "LONG",
+        "display_name": "SSL Keystore",
+        "dependents": [],
+        "order": 8
+      },
+      "value": {
+        "name": "database.ssl.keystore",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.ssl.keystore.password",
+        "type": "PASSWORD",
+        "required": false,
+        "default_value": null,
+        "importance": "MEDIUM",
+        "documentation": "Password to access the private key from the keystore file specified by 'ssl.keystore' configuration property or the 'javax.net.ssl.keyStore' system or JVM property. This password is used to unlock the keystore file (store password), and to decrypt the private key stored in the keystore (key password).",
+        "group": "MySQL",
+        "width": "MEDIUM",
+        "display_name": "SSL Keystore Password",
+        "dependents": [],
+        "order": 9
+      },
+      "value": {
+        "name": "database.ssl.keystore.password",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.ssl.truststore",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "MEDIUM",
+        "documentation": "Location of the Java truststore file containing the collection of CA certificates trusted by this application process (trust store).",
+        "group": "MySQL",
+        "width": "LONG",
+        "display_name": "SSL Truststore",
+        "dependents": [],
+        "order": 10
+      },
+      "value": {
+        "name": "database.ssl.truststore",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.ssl.truststore.password",
+        "type": "PASSWORD",
+        "required": false,
+        "default_value": null,
+        "importance": "MEDIUM",
+        "documentation": "Password to unlock the keystore file (store password) specified by 'ssl.trustore' configuration property or the 'javax.net.ssl.trustStore' system or JVM property.",
+        "group": "MySQL",
+        "width": "MEDIUM",
+        "display_name": "SSL Truststore Password",
+        "dependents": [],
+        "order": 11
+      },
+      "value": {
+        "name": "database.ssl.truststore.password",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.history.kafka.bootstrap.servers",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "A list of host/port pairs that the connector will use for establishing the initial connection to the Kafka cluster for retrieving database schema history previously stored by the connector. This should point to the same Kafka cluster used by the Kafka Connect process.",
+        "group": "History Storage",
+        "width": "LONG",
+        "display_name": "Kafka broker addresses",
+        "dependents": [],
+        "order": 1
+      },
+      "value": {
+        "name": "database.history.kafka.bootstrap.servers",
+        "value": null,
+        "recommended_values": [],
+        "errors": [
+          "A value is required"
+        ],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.history.kafka.topic",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "The name of the topic for the database schema history",
+        "group": "History Storage",
+        "width": "LONG",
+        "display_name": "Database history topic name",
+        "dependents": [],
+        "order": 2
+      },
+      "value": {
+        "name": "database.history.kafka.topic",
+        "value": null,
+        "recommended_values": [],
+        "errors": [
+          "A value is required"
+        ],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.history.kafka.recovery.attempts",
+        "type": "INT",
+        "required": false,
+        "default_value": "4",
+        "importance": "LOW",
+        "documentation": "The number of attempts in a row that no data are returned from Kafka before recover completes. The maximum amount of time to wait after receiving no data is (recovery.attempts) x (recovery.poll.interval.ms).",
+        "group": "History Storage",
+        "width": "SHORT",
+        "display_name": "Max attempts to recovery database history",
+        "dependents": [],
+        "order": 3
+      },
+      "value": {
+        "name": "database.history.kafka.recovery.attempts",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.history.kafka.recovery.poll.interval.ms",
+        "type": "INT",
+        "required": false,
+        "default_value": "100",
+        "importance": "LOW",
+        "documentation": "The number of milliseconds to wait while polling for persisted data during recovery.",
+        "group": "History Storage",
+        "width": "SHORT",
+        "display_name": "Poll interval during database history recovery (ms)",
+        "dependents": [],
+        "order": 4
+      },
+      "value": {
+        "name": "database.history.kafka.recovery.poll.interval.ms",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.history",
+        "type": "CLASS",
+        "required": false,
+        "default_value": "io.debezium.relational.history.KafkaDatabaseHistory",
+        "importance": "LOW",
+        "documentation": "The name of the DatabaseHistory class that should be used to store and recover database schema changes. The configuration properties for the history are prefixed with the 'database.history.' string.",
+        "group": "History Storage",
+        "width": "LONG",
+        "display_name": "Database history class",
+        "dependents": [],
+        "order": 5
+      },
+      "value": {
+        "name": "database.history",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": false
+      }
+    },
+    {
+      "definition": {
+        "name": "include.schema.changes",
+        "type": "BOOLEAN",
+        "required": false,
+        "default_value": "true",
+        "importance": "MEDIUM",
+        "documentation": "Whether the connector should publish changes in the database schema to a Kafka topic with the same name as the database server ID. Each schema change will be recorded using a key that contains the database name and whose value includes the DDL statement(s).The default is 'true'. This is independent of how the connector internally records database history.",
+        "group": "Events",
+        "width": "SHORT",
+        "display_name": "Include database schema changes",
+        "dependents": [],
+        "order": 1
+      },
+      "value": {
+        "name": "include.schema.changes",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "table.ignore.builtin",
+        "type": "BOOLEAN",
+        "required": false,
+        "default_value": "true",
+        "importance": "LOW",
+        "documentation": "Flag specifying whether built-in tables should be ignored.",
+        "group": "Events",
+        "width": "SHORT",
+        "display_name": "Ignore system databases",
+        "dependents": [
+          "database.whitelist"
+        ],
+        "order": 2
+      },
+      "value": {
+        "name": "table.ignore.builtin",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "database.whitelist",
+        "type": "LIST",
+        "required": false,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "The databases for which changes are to be captured",
+        "group": "Events",
+        "width": "LONG",
+        "display_name": "Databases",
+        "dependents": [
+          "table.whitelist"
+        ],
+        "order": 3
+      },
+      "value": {
+        "name": "database.whitelist",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "table.whitelist",
+        "type": "LIST",
+        "required": false,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "The tables for which changes are to be captured",
+        "group": "Events",
+        "width": "LONG",
+        "display_name": "Tables",
+        "dependents": [],
+        "order": 4
+      },
+      "value": {
+        "name": "table.whitelist",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "column.blacklist",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "MEDIUM",
+        "documentation": "",
+        "group": "Events",
+        "width": "LONG",
+        "display_name": "Exclude Columns",
+        "dependents": [],
+        "order": 5
+      },
+      "value": {
+        "name": "column.blacklist",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "table.blacklist",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "MEDIUM",
+        "documentation": null,
+        "group": "Events",
+        "width": "LONG",
+        "display_name": "Exclude Tables",
+        "dependents": [],
+        "order": 6
+      },
+      "value": {
+        "name": "table.blacklist",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": false
+      }
+    },
+    {
+      "definition": {
+        "name": "database.blacklist",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "MEDIUM",
+        "documentation": "",
+        "group": "Events",
+        "width": "LONG",
+        "display_name": "Exclude Databases",
+        "dependents": [],
+        "order": 7
+      },
+      "value": {
+        "name": "database.blacklist",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": false
+      }
+    },
+    {
+      "definition": {
+        "name": "gtid.source.includes",
+        "type": "LIST",
+        "required": false,
+        "default_value": null,
+        "importance": "HIGH",
+        "documentation": "The source UUIDs used to include GTID ranges when determine the starting position in the MySQL server's binlog.",
+        "group": "Events",
+        "width": "LONG",
+        "display_name": "Include GTID sources",
+        "dependents": [
+          "table.whitelist"
+        ],
+        "order": 8
+      },
+      "value": {
+        "name": "gtid.source.includes",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "gtid.source.excludes",
+        "type": "STRING",
+        "required": false,
+        "default_value": null,
+        "importance": "MEDIUM",
+        "documentation": "The source UUIDs used to exclude GTID ranges when determine the starting position in the MySQL server's binlog.",
+        "group": "Events",
+        "width": "LONG",
+        "display_name": "Exclude GTID sources",
+        "dependents": [],
+        "order": 9
+      },
+      "value": {
+        "name": "gtid.source.excludes",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": false
+      }
+    },
+    {
+      "definition": {
+        "name": "connect.timeout.ms",
+        "type": "INT",
+        "required": false,
+        "default_value": "30000",
+        "importance": "MEDIUM",
+        "documentation": "Maximum time in milliseconds to wait after trying to connect to the database before timing out.",
+        "group": "Connector",
+        "width": "SHORT",
+        "display_name": "Connection Timeout (ms)",
+        "dependents": [],
+        "order": 1
+      },
+      "value": {
+        "name": "connect.timeout.ms",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "connect.keep.alive",
+        "type": "BOOLEAN",
+        "required": false,
+        "default_value": "true",
+        "importance": "LOW",
+        "documentation": "Whether a separate thread should be used to ensure the connection is kept alive.",
+        "group": "Connector",
+        "width": "SHORT",
+        "display_name": "Connection Timeout (ms)",
+        "dependents": [],
+        "order": 2
+      },
+      "value": {
+        "name": "connect.keep.alive",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "max.queue.size",
+        "type": "INT",
+        "required": false,
+        "default_value": "2048",
+        "importance": "MEDIUM",
+        "documentation": "Maximum size of the queue for change events read from the database log but not yet recorded or forwarded. Defaults to 2048, and should always be larger than the maximum batch size.",
+        "group": "Connector",
+        "width": "SHORT",
+        "display_name": "Change event buffer size",
+        "dependents": [],
+        "order": 3
+      },
+      "value": {
+        "name": "max.queue.size",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "max.batch.size",
+        "type": "INT",
+        "required": false,
+        "default_value": "1024",
+        "importance": "MEDIUM",
+        "documentation": "Maximum size of each batch of source records. Defaults to 1024.",
+        "group": "Connector",
+        "width": "SHORT",
+        "display_name": "Change event batch size",
+        "dependents": [],
+        "order": 4
+      },
+      "value": {
+        "name": "max.batch.size",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "poll.interval.ms",
+        "type": "LONG",
+        "required": false,
+        "default_value": "1000",
+        "importance": "MEDIUM",
+        "documentation": "Frequency in milliseconds to wait for new change events to appear after receiving no events. Defaults to 1 second (1000 ms).",
+        "group": "Connector",
+        "width": "SHORT",
+        "display_name": "Poll interval (ms)",
+        "dependents": [],
+        "order": 5
+      },
+      "value": {
+        "name": "poll.interval.ms",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "snapshot.mode",
+        "type": "STRING",
+        "required": false,
+        "default_value": "initial",
+        "importance": "LOW",
+        "documentation": "The criteria for running a snapshot upon startup of the connector. Options include: 'when_needed' to specify that the connector run a snapshot upon startup whenever it deems it necessary; 'initial' (the default) to specify the connector can run a snapshot only when no offsets are available for the logical server name; 'initial_only' same as 'initial' except the connector should stop after completing the snapshot and before it would normally read the binlog; and'never' to specify the connector should never run a snapshot and that upon first startup the connector should read from the beginning of the binlog. The 'never' mode should be used with care, and only when the binlog is known to contain all history.",
+        "group": "Connector",
+        "width": "SHORT",
+        "display_name": "Snapshot mode",
+        "dependents": [],
+        "order": 6
+      },
+      "value": {
+        "name": "snapshot.mode",
+        "value": null,
+        "recommended_values": [
+          "never",
+          "initial_only",
+          "when_needed",
+          "initial"
+        ],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "snapshot.minimal.locks",
+        "type": "BOOLEAN",
+        "required": false,
+        "default_value": "true",
+        "importance": "LOW",
+        "documentation": "Controls how long the connector holds onto the global read lock while it is performing a snapshot. The default is 'true', which means the connector holds the global read lock (and thus prevents any updates) for just the initial portion of the snapshot while the database schemas and other metadata are being read. The remaining work in a snapshot involves selecting all rows from each table, and this can be done using the snapshot process' REPEATABLE READ transaction even when the lock is no longer held and other operations are updating the database. However, in some cases it may be desirable to block all writes for the entire duration of the snapshot; in such cases set this property to 'false'.",
+        "group": "Connector",
+        "width": "SHORT",
+        "display_name": "Use shortest database locking for snapshots",
+        "dependents": [],
+        "order": 7
+      },
+      "value": {
+        "name": "snapshot.minimal.locks",
+        "value": null,
+        "recommended_values": [],
+        "errors": [],
+        "visible": true
+      }
+    },
+    {
+      "definition": {
+        "name": "time.precision.mode",
+        "type": "STRING",
+        "required": false,
+        "default_value": "adaptive",
+        "importance": "MEDIUM",
+        "documentation": "Time, date, and timestamps can be represented with different kinds of precisions, including:'adaptive' (the default) bases the precision of time, date, and timestamp values on the database column's precision; 'connect' always represents time, date, and timestamp values using Kafka Connect's built-in representations for Time, Date, and Timestamp, which uses millisecond precision regardless of the database columns' precision .",
+        "group": "Connector",
+        "width": "SHORT",
+        "display_name": "Time Precision",
+        "dependents": [],
+        "order": 8
+      },
+      "value": {
+        "name": "time.precision.mode",
+        "value": null,
+        "recommended_values": [
+          "adaptive",
+          "connect"
+        ],
+        "errors": [],
+        "visible": true
+      }
+    }
+  ]
+}
