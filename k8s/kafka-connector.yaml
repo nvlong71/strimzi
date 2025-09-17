@@ -13,8 +13,8 @@ spec:
     database.user: "mysqluser"
     database.password: "mysqlpw"
     database.server.id: "184054"
+    database.server.name: "mysql"
     topic.prefix: "mysql"
-    name: debezium-connector-mysql
-    database.include.list: "inventory"
-    database.history.internal.kafka.bootstrap.servers: "debezium-cluster-kafka-bootstrap:9092"
-    database.history.internal.kafka.topic: "schema-changes.inventory"
+    database.include.list: inventory
+    schema.history.internal.kafka.bootstrap.servers: kafka-cluster-kafka-bootstrap:9092
+    schema.history.internal.kafka.topic: schema-changes.inventory

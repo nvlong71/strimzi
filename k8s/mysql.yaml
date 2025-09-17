@@ -27,7 +27,7 @@ spec:
         app: mysql
     spec:
       containers:
-      - image: quay.io/debezium/example-mysql:3.2
+      - image: mysql:latest
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
