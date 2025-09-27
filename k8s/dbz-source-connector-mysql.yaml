@@ -1,7 +1,8 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnector
 metadata:
-  name: debezium-connector-mysql
+  name: debezium-source-connector-mysql
+  namespace: operators
   labels:
     strimzi.io/cluster: debezium-connect-cluster
 spec:
